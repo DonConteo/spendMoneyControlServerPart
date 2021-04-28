@@ -45,7 +45,11 @@
 			<artifactId>postgresql</artifactId>
 			<version>42.2.10</version>
 		</dependency>
-	</dependencies>
+        <dependency>
+            <groupId>com.jayway.jsonpath</groupId>
+            <artifactId>json-path</artifactId>
+        </dependency>
+    </dependencies>
 
 	<build>
 		<plugins>

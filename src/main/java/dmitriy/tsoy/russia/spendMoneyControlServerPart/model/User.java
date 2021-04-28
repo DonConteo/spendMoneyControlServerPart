@@ -1,5 +1,7 @@
 package dmitriy.tsoy.russia.spendMoneyControlServerPart.model;
 
+import com.sun.istack.NotNull;
+
 import javax.persistence.*;
 
 @Entity
@@ -9,9 +11,12 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+    @NotNull
     private String username;
+    @NotNull
     private int age;
-    private char sex;
+    @NotNull
+    private String sex;
 
     public long getId() {
         return id;
@@ -34,10 +39,10 @@ public class User {
         this.age = age;
     }
 
-    public char getSex() {
+    public String getSex() {
         return sex;
     }
-    public void setSex(char sex) {
+    public void setSex(String sex) {
         this.sex = sex;
     }
 }

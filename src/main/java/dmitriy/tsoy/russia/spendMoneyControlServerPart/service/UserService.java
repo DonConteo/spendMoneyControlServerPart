@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserService {
@@ -17,12 +18,16 @@ public class UserService {
         return userRepo.findAll();
     }
 
-    public void saveUser(String username, int age, char sex) {
-        User user = new User();
-        user.setUsername(username);
-        user.setAge(age);
-        user.setSex(sex);
+    public Optional<User> getUserById(long id) {
+        return userRepo.findById(id);
+    }
+
+    public void saveUser(User user) {
         userRepo.save(user);
+    }
+
+    public void updateUser(Long id, String name, int age, String sex) {
+        userRepo.updateUser(id, name, age, sex);
     }
 
     public void deleteUser(long id) {
