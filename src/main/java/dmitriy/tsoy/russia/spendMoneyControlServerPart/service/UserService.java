@@ -29,23 +29,16 @@ public class UserService {
 
     public void updateUser(long id, String name, int age, String sex) {
         Optional<User> user = userRepo.findById(id);
-        UpdateUserDto uud = new UpdateUserDto();
         if(!name.equals("")) {
-            uud.setUsername(name);
-        } else {
-            uud.setUsername(user.get().getUsername());
+            user.get().setUsername(name);
         }
         if(age != 0) {
-            uud.setAge(age);
-        } else {
-            uud.setAge(user.get().getAge());
+            user.get().setAge(age);
         }
         if(!sex.equals("undefined")) {
-            uud.setSex(sex);
-        } else {
-            uud.setSex(user.get().getSex());
+            user.get().setSex(sex);
         }
-        userRepo.updateUser(id, uud.getUsername(), uud.getAge(), uud.getSex());
+        userRepo.updateUser(id, user.get().getUsername(), user.get().getAge(), user.get().getSex());
     }
 
     public void deleteUser(long id) {
