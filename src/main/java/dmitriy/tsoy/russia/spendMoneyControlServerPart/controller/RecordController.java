@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("records")
@@ -48,5 +49,11 @@ public class RecordController {
     public ResponseEntity<String> deleteRecord(@PathVariable(value="id") long id) {
         recordService.deleteRecord(id);
         return new ResponseEntity<>("Record successfully deleted", HttpStatus.OK);
+    }
+
+    @GetMapping("{id}/spends")
+    public ResponseEntity<Map<String, Double>> getSpendsForUser(@PathVariable(value="id") long id,
+                                                                @RequestParam(value="period", required = false, defaultValue = "") String period) {
+        return ResponseEntity.ok(recordService.getSpendsForUser(id, period));
     }
 }

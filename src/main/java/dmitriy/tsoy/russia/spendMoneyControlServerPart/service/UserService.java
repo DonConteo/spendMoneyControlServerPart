@@ -1,5 +1,6 @@
 package dmitriy.tsoy.russia.spendMoneyControlServerPart.service;
 
+import dmitriy.tsoy.russia.spendMoneyControlServerPart.Dto.UserInfoDto;
 import dmitriy.tsoy.russia.spendMoneyControlServerPart.model.User;
 import dmitriy.tsoy.russia.spendMoneyControlServerPart.repo.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,11 @@ public class UserService {
 
     @Autowired
     UserRepo userRepo;
+
+    RecordService recordService;
+    public UserService(RecordService recordService) {
+        this.recordService = recordService;
+    }
 
     public List<User> getAllUsers() {
         return userRepo.findAll();
@@ -42,5 +48,16 @@ public class UserService {
 
     public void deleteUser(long id) {
         userRepo.deleteById(id);
+    }
+
+    public UserInfoDto getUserInfo(long id) {
+        Optional<User> user = userRepo.findById(id);
+        UserInfoDto userInfoDto = new UserInfoDto(id,
+                                                user.get().getUsername(),
+                                                user.get().getAge(),
+                                                user.get().getSex(),
+                                                recordService.getSpendsForUser(id, ""),
+                                                recordService.getRecordDto(id));
+        return userInfoDto;
     }
 }
