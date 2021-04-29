@@ -38,8 +38,10 @@ public class UserController {
 
     @PutMapping("{id}")
     public ResponseEntity<String> updateUser(@PathVariable(value="id") long id,
-                                             @RequestBody User user) {
-        userService.updateUser(id, user.getUsername(), user.getAge(), user.getSex());
+                                             @RequestParam(value="username", required = false, defaultValue = "") String username,
+                                             @RequestParam(value="age", required = false, defaultValue = "0") int age,
+                                             @RequestParam(value="sex", required = false, defaultValue = "undefined") String sex) {
+        userService.updateUser(id, username, age, sex);
         return new ResponseEntity<>("User successfully updated", HttpStatus.OK);
     }
 
