@@ -14,7 +14,6 @@ import java.util.List;
 public class RecordController {
 
     RecordService recordService;
-
     public RecordController(RecordService recordService) {
         this.recordService = recordService;
     }
