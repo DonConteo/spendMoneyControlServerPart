@@ -3,7 +3,7 @@ package dmitriy.tsoy.russia.spendMoneyControlServerPart.Dto;
 import java.util.List;
 import java.util.Map;
 
-public class UserInfoDto {
+public class UserDto {
 
     long id;
     String username;
@@ -54,7 +54,7 @@ public class UserInfoDto {
         this.records = records;
     }
 
-    public UserInfoDto(long id, String username, int age, String sex, Map<String, Double> spends, List<RecordDto> records) {
+    public UserDto(long id, String username, int age, String sex, Map<String, Double> spends, List<RecordDto> records) {
         this.id = id;
         this.username = username;
         this.age = age;

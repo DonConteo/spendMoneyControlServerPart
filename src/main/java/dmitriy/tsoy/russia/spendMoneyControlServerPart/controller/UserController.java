@@ -1,6 +1,6 @@
 package dmitriy.tsoy.russia.spendMoneyControlServerPart.controller;
 
-import dmitriy.tsoy.russia.spendMoneyControlServerPart.Dto.UserInfoDto;
+import dmitriy.tsoy.russia.spendMoneyControlServerPart.Dto.UserDto;
 import dmitriy.tsoy.russia.spendMoneyControlServerPart.model.User;
 import dmitriy.tsoy.russia.spendMoneyControlServerPart.service.UserService;
 import org.springframework.http.HttpStatus;
@@ -52,7 +52,7 @@ public class UserController {
     }
 
     @GetMapping("{id}/info")
-    public ResponseEntity<UserInfoDto> getUserInfo(@PathVariable(value="id") long id) {
+    public ResponseEntity<UserDto> getUserInfo(@PathVariable(value="id") long id) {
         return ResponseEntity.ok(userService.getUserDto(id));
     }
 }

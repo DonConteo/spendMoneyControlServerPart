@@ -1,6 +1,6 @@
 package dmitriy.tsoy.russia.spendMoneyControlServerPart.service;
 
-import dmitriy.tsoy.russia.spendMoneyControlServerPart.Dto.UserInfoDto;
+import dmitriy.tsoy.russia.spendMoneyControlServerPart.Dto.UserDto;
 import dmitriy.tsoy.russia.spendMoneyControlServerPart.model.User;
 import dmitriy.tsoy.russia.spendMoneyControlServerPart.repo.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,14 +50,14 @@ public class UserService {
         userRepo.deleteById(id);
     }
 
-    public UserInfoDto getUserDto(long id) {
+    public UserDto getUserDto(long id) {
         Optional<User> user = userRepo.findById(id);
-        UserInfoDto userInfoDto = new UserInfoDto(id,
+        UserDto userDto = new UserDto(id,
                                                 user.get().getUsername(),
                                                 user.get().getAge(),
                                                 user.get().getSex(),
                                                 recordService.getSpendsForUser(id, ""),
                                                 recordService.getRecordDto(id));
-        return userInfoDto;
+        return userDto;
     }
 }
