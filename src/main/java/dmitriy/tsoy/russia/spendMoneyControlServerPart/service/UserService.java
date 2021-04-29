@@ -1,6 +1,5 @@
 package dmitriy.tsoy.russia.spendMoneyControlServerPart.service;
 
-import dmitriy.tsoy.russia.spendMoneyControlServerPart.model.UpdateUserDto;
 import dmitriy.tsoy.russia.spendMoneyControlServerPart.model.User;
 import dmitriy.tsoy.russia.spendMoneyControlServerPart.repo.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
