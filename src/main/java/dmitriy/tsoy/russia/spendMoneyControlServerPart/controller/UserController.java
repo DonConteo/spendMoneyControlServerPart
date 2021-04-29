@@ -3,6 +3,7 @@ package dmitriy.tsoy.russia.spendMoneyControlServerPart.controller;
 import dmitriy.tsoy.russia.spendMoneyControlServerPart.Dto.UserDto;
 import dmitriy.tsoy.russia.spendMoneyControlServerPart.model.User;
 import dmitriy.tsoy.russia.spendMoneyControlServerPart.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -15,10 +16,8 @@ import java.util.Optional;
 @RequestMapping("users")
 public class UserController {
 
+    @Autowired
     UserService userService;
-    public UserController(UserService userService) {
-        this.userService = userService;
-    }
 
     @GetMapping()
     public ResponseEntity<List<User>> getAllUsers() {

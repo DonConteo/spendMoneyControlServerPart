@@ -2,6 +2,7 @@ package dmitriy.tsoy.russia.spendMoneyControlServerPart.controller;
 
 import dmitriy.tsoy.russia.spendMoneyControlServerPart.service.RecordService;
 import dmitriy.tsoy.russia.spendMoneyControlServerPart.model.Record;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -14,10 +15,8 @@ import java.util.Map;
 @RequestMapping("records")
 public class RecordController {
 
+    @Autowired
     RecordService recordService;
-    public RecordController(RecordService recordService) {
-        this.recordService = recordService;
-    }
 
     @GetMapping()
     public ResponseEntity<List<Record>> getAllRecords() {

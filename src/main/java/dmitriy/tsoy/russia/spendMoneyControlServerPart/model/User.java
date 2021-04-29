@@ -45,4 +45,13 @@ public class User {
     public void setSex(String sex) {
         this.sex = sex;
     }
+
+    public User(String username, int age, String sex) {
+        this.username = username;
+        this.age = age;
+        this.sex = sex;
+    }
+
+    public User() {
+    }
 }

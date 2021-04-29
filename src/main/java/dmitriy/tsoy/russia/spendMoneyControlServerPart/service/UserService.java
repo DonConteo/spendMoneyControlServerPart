@@ -15,10 +15,8 @@ public class UserService {
     @Autowired
     UserRepo userRepo;
 
+    @Autowired
     RecordService recordService;
-    public UserService(RecordService recordService) {
-        this.recordService = recordService;
-    }
 
     public List<User> getAllUsers() {
         return userRepo.findAll();
@@ -53,11 +51,11 @@ public class UserService {
     public UserDto getUserDto(long id) {
         Optional<User> user = userRepo.findById(id);
         UserDto userDto = new UserDto(id,
-                                                user.get().getUsername(),
-                                                user.get().getAge(),
-                                                user.get().getSex(),
-                                                recordService.getSpendsForUser(id, ""),
-                                                recordService.getRecordDto(id));
+                                        user.get().getUsername(),
+                                        user.get().getAge(),
+                                        user.get().getSex(),
+                                        recordService.getSpendsForUser(id, ""),
+                                        recordService.getRecordDto(id));
         return userDto;
     }
 }
