@@ -50,7 +50,7 @@ public class UserService {
         userRepo.deleteById(id);
     }
 
-    public UserInfoDto getUserInfo(long id) {
+    public UserInfoDto getUserDto(long id) {
         Optional<User> user = userRepo.findById(id);
         UserInfoDto userInfoDto = new UserInfoDto(id,
                                                 user.get().getUsername(),

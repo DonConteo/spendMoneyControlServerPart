@@ -53,6 +53,6 @@ public class UserController {
 
     @GetMapping("{id}/info")
     public ResponseEntity<UserInfoDto> getUserInfo(@PathVariable(value="id") long id) {
-        return ResponseEntity.ok(userService.getUserInfo(id));
+        return ResponseEntity.ok(userService.getUserDto(id));
     }
 }
