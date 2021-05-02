@@ -68,7 +68,7 @@ public class RecordService {
         for(int i = period; i >= 0; i--) {
             LocalDate endDate = startDate.minusMonths(i);
             String month = String.valueOf(endDate.getMonth());
-            double amount = recordRepo.getSpendsForMonth(id, endDate);
+            double amount = recordRepo.getSpendsForPeriod(id, endDate);
             spends.put(month, amount);
         }
         return spends;
