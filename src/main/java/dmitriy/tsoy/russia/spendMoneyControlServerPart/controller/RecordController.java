@@ -49,10 +49,16 @@ public class RecordController {
         recordService.deleteRecord(id);
         return new ResponseEntity<>("Record successfully deleted", HttpStatus.OK);
     }
+//
+//    @GetMapping("{id}/spends/month")
+//    public ResponseEntity<Map<String, Double>> getSpendsForUser(@PathVariable(value="id") long id,
+//                                                                @RequestParam(value="period", required = false, defaultValue = "0") int period) {
+//        return ResponseEntity.ok(recordService.getSpendsForUser(id, period));
+//    }
 
     @GetMapping("{id}/spends")
-    public ResponseEntity<Map<String, Double>> getSpendsForUser(@PathVariable(value="id") long id,
-                                                                @RequestParam(value="period", required = false, defaultValue = "") String period) {
+    public ResponseEntity<Map<String, Double>> getSpendsForUserInPeriod(@PathVariable(value="id") long id,
+                                                                @RequestParam(value="period", required = false, defaultValue = "0") int period) {
         return ResponseEntity.ok(recordService.getSpendsForUser(id, period));
     }
 }

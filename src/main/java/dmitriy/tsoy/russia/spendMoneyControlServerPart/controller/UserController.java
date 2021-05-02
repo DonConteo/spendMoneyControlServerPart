@@ -1,6 +1,6 @@
 package dmitriy.tsoy.russia.spendMoneyControlServerPart.controller;
 
-import dmitriy.tsoy.russia.spendMoneyControlServerPart.Dto.UserDto;
+import dmitriy.tsoy.russia.spendMoneyControlServerPart.dto.UserDto;
 import dmitriy.tsoy.russia.spendMoneyControlServerPart.model.User;
 import dmitriy.tsoy.russia.spendMoneyControlServerPart.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,7 +39,7 @@ public class UserController {
     public ResponseEntity<String> updateUser(@PathVariable(value="id") long id,
                                              @RequestParam(value="username", required = false, defaultValue = "") String username,
                                              @RequestParam(value="age", required = false, defaultValue = "0") int age,
-                                             @RequestParam(value="sex", required = false, defaultValue = "undefined") String sex) {
+                                             @RequestParam(value="sex", required = false, defaultValue = "") String sex) {
         userService.updateUser(id, username, age, sex);
         return new ResponseEntity<>("User successfully updated", HttpStatus.OK);
     }

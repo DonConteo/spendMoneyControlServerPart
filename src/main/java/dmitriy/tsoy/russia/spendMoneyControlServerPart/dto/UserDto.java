@@ -1,4 +1,4 @@
-package dmitriy.tsoy.russia.spendMoneyControlServerPart.Dto;
+package dmitriy.tsoy.russia.spendMoneyControlServerPart.dto;
 
 import java.util.List;
 import java.util.Map;

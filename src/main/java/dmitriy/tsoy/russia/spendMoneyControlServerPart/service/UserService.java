@@ -1,6 +1,6 @@
 package dmitriy.tsoy.russia.spendMoneyControlServerPart.service;
 
-import dmitriy.tsoy.russia.spendMoneyControlServerPart.Dto.UserDto;
+import dmitriy.tsoy.russia.spendMoneyControlServerPart.dto.UserDto;
 import dmitriy.tsoy.russia.spendMoneyControlServerPart.model.User;
 import dmitriy.tsoy.russia.spendMoneyControlServerPart.repo.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,18 +30,22 @@ public class UserService {
         userRepo.save(user);
     }
 
-    public void updateUser(long id, String name, int age, String sex) {
+    public void updateUser(long id, String username, int age, String sex) {
         Optional<User> user = userRepo.findById(id);
-        if(!name.equals("")) {
-            user.get().setUsername(name);
+        if(username.equals("")) {
+            username = user.get().getUsername();
         }
-        if(age != 0) {
-            user.get().setAge(age);
+        if(age == 0) {
+            age = user.get().getAge();
         }
-        if(!sex.equals("undefined")) {
-            user.get().setSex(sex);
+        if(sex.equals("")) {
+            sex = user.get().getSex();
         }
-        userRepo.updateUser(id, user.get().getUsername(), user.get().getAge(), user.get().getSex());
+        User u = User.newBuilder().
+                username(username).
+                age(age).
+                sex(sex).build();
+        userRepo.updateUser(id, u.getUsername(), u.getAge(), u.getSex());
     }
 
     public void deleteUser(long id) {
@@ -54,7 +58,7 @@ public class UserService {
                                         user.get().getUsername(),
                                         user.get().getAge(),
                                         user.get().getSex(),
-                                        recordService.getSpendsForUser(id, ""),
+                                        recordService.getSpendsForUser(id, 0),
                                         recordService.getRecordDto(id));
         return userDto;
     }

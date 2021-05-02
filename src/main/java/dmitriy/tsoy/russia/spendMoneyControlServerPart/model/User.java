@@ -21,37 +21,45 @@ public class User {
     public long getId() {
         return id;
     }
-    public void setId(long id) {
-        this.id = id;
-    }
-
     public String getUsername() {
         return username;
     }
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
     public int getAge() {
         return age;
     }
-    public void setAge(int age) {
-        this.age = age;
-    }
-
     public String getSex() {
         return sex;
     }
-    public void setSex(String sex) {
-        this.sex = sex;
+
+    private User() {
     }
 
-    public User(String username, int age, String sex) {
-        this.username = username;
-        this.age = age;
-        this.sex = sex;
+    public static User.Builder newBuilder(){
+        return new User().new Builder();
     }
 
-    public User() {
+    public class Builder {
+
+        public Builder() {
+        }
+
+        public User.Builder username(String username){
+            User.this.username = username;
+            return this;
+        }
+
+        public User.Builder age(int age){
+            User.this.age = age;
+            return this;
+        }
+
+        public User.Builder sex(String sex) {
+            User.this.sex = sex;
+            return this;
+        }
+
+        public User build() {
+            return User.this;
+        }
     }
 }

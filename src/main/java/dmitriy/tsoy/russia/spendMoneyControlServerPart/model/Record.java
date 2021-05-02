@@ -2,6 +2,7 @@ package dmitriy.tsoy.russia.spendMoneyControlServerPart.model;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.Optional;
 
 @Entity
 @Table(name="records")
@@ -28,46 +29,58 @@ public class Record {
     public String getCategory() {
         return category;
     }
-    public void setCategory(String category) {
-        this.category = category;
-    }
-
     public double getAmount() {
         return amount;
     }
-    public void setAmount(double amount) {
-        this.amount = amount;
-    }
-
     public String getComment() {
         return comment;
     }
-    public void setComment(String comment) {
-        this.comment = comment;
-    }
-
     public Date getDate() {
         return date;
     }
-    public void setDate(Date date) {
-        this.date = date;
-    }
-
     public User getUser() {
         return user;
     }
-    public void setUser(User user) {
-        this.user = user;
+
+    private Record() {
     }
 
-    public Record(String category, double amount, String comment, Date date, User user) {
-        this.category = category;
-        this.amount = amount;
-        this.comment = comment;
-        this.date = date;
-        this.user = user;
+    public static Builder newBuilder(){
+        return new Record().new Builder();
     }
 
-    public Record() {
+    public class Builder {
+
+        public Builder() {
+        }
+
+        public Builder category(String category){
+            Record.this.category = category;
+            return this;
+        }
+
+        public Builder amount(double amount){
+            Record.this.amount = amount;
+            return this;
+        }
+
+        public Builder comment(String comment) {
+            Record.this.comment = comment;
+            return this;
+        }
+
+        public Builder date(Date date) {
+            Record.this.date = date;
+            return this;
+        }
+
+        public Builder user(User user) {
+            Record.this.user = user;
+            return this;
+        }
+
+        public Record build() {
+            return Record.this;
+        }
     }
 }
