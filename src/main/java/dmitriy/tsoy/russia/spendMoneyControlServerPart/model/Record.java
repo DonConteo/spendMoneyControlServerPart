@@ -1,8 +1,8 @@
 package dmitriy.tsoy.russia.spendMoneyControlServerPart.model;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.Date;
-import java.util.Optional;
 
 @Entity
 @Table(name="records")
@@ -14,7 +14,7 @@ public class Record {
     private String category;
     private double amount;
     private String comment;
-    private Date date;
+    private LocalDate date;
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
     private User user;
@@ -35,7 +35,7 @@ public class Record {
     public String getComment() {
         return comment;
     }
-    public Date getDate() {
+    public LocalDate getDate() {
         return date;
     }
     public User getUser() {
@@ -69,7 +69,7 @@ public class Record {
             return this;
         }
 
-        public Builder date(Date date) {
+        public Builder date(LocalDate date) {
             Record.this.date = date;
             return this;
         }

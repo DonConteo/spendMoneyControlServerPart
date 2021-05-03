@@ -33,7 +33,7 @@ public class RecordService {
                 category(record.getCategory()).
                 amount(record.getAmount()).
                 comment(record.getComment()).
-                date(new Date()).
+                date(LocalDate.now()).
                 user(user.get()).build();
         recordRepo.save(r);
     }

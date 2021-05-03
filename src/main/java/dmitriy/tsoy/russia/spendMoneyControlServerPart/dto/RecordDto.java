@@ -1,12 +1,13 @@
 package dmitriy.tsoy.russia.spendMoneyControlServerPart.dto;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 public class RecordDto {
     String category;
     double amount;
     String comment;
-    Date date;
+    LocalDate date;
 
     public String getCategory() {
         return category;
@@ -29,14 +30,14 @@ public class RecordDto {
         this.comment = comment;
     }
 
-    public Date getDate() {
+    public LocalDate getDate() {
         return date;
     }
-    public void setDate(Date date) {
+    public void setDate(LocalDate date) {
         this.date = date;
     }
 
-    public RecordDto(String category, double amount, String comment, Date date) {
+    public RecordDto(String category, double amount, String comment, LocalDate date) {
         this.category = category;
         this.amount = amount;
         this.comment = comment;
