@@ -44,11 +44,6 @@ public interface RecordRepo extends JpaRepository<Record, Long> {
 //    double getSpendsForUser(@Param("id") long id, @Param("start_date") Date startDate, @Param("end_date") Date endDate);
 
     @Transactional
-    @Query(value="select sum(amount) from records where user_id =:id and month(date) =:month and year(date) =:year", nativeQuery = true)
+    @Query(value="select sum(amount) from records where user_id =:id and extract(month from date) =:month and extract(year from date) =:year", nativeQuery = true)
     double getSpendsForPeriod(@Param("id") long id, @Param("month") int month, @Param("year") int year);
 }
-
-//SQL Error: 0, SQLState: 42883
-//2021-05-05 00:13:36.239 ERROR 7560 --- [nio-8080-exec-1] o.h.engine.jdbc.spi.SqlExceptionHelper   : ОШИБКА: функция month(date) не существует
-//  Подсказка: Функция с данными именем и типами аргументов не найдена. Возможно, вам следует добавить явные приведения типов.
-//  Позиция: 55
