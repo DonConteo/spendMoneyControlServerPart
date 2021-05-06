@@ -27,22 +27,6 @@ public interface RecordRepo extends JpaRepository<Record, Long> {
                     @Param("amount") double amount,
                     @Param("comment") String comment);
 
-//    @Transactional
-//    @Query(value="select sum(amount) from records where user_id =:id and date_trunc('month', date) = date_trunc('month', now())", nativeQuery = true)
-//    double getSpendsForUserThisMonth(@Param("id") long id);
-//
-//    @Transactional
-//    @Query(value="select sum(amount) from records where user_id =:id and date_trunc('month', date) = date_trunc('month', current_date - interval '1' month)", nativeQuery = true)
-//    double getSpendsForUserLastMonth(@Param("id") long id);
-//
-//    @Transactional
-//    @Query(value="select sum(amount) from records where user_id =:id", nativeQuery = true)
-//    double getSpendsForUserAllTime(@Param("id") long id);
-
-//    @Transactional
-//    @Query(value="select sum(amount) from records where user_id =:id and date_trunc('month', date) between date_trunc('month', now()) and date_trunc('month', current_date - interval :period month)", nativeQuery = true)
-//    double getSpendsForUser(@Param("id") long id, @Param("start_date") Date startDate, @Param("end_date") Date endDate);
-
     @Transactional
     @Query(value="select sum(amount) from records where user_id =:id and extract(month from date) =:month and extract(year from date) =:year", nativeQuery = true)
     double getSpendsForPeriod(@Param("id") long id, @Param("month") int month, @Param("year") int year);

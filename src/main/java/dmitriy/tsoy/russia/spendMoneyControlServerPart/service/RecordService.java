@@ -67,64 +67,44 @@ public class RecordService {
         LocalDate startDate = LocalDate.now();
         for(int i = period; i >= 0; i--) {
             LocalDate endDate = startDate.minusMonths(i);
-            double amount = recordRepo.getSpendsForPeriod(id, endDate.getMonth().getValue(), endDate.getYear());
-            spends.put(endDate.getMonth().toString(), amount);
+            double amount;
+            try {
+                amount = recordRepo.getSpendsForPeriod(id, endDate.getMonth().getValue(), endDate.getYear());
+                spends.put(endDate.getMonth().toString(), amount);
+            } catch (Exception e) {
+                amount = 0.0;
+                spends.put(endDate.getMonth().toString(), amount);
+            }
         }
         return spends;
     }
 
-//    public Map<String, Double> getSpendsForUser(long id, String period) {
-//        Map<String, Double> spends = new HashMap<>();
-//        if(period.equalsIgnoreCase("thisMonth")) {
-//            try{
-//                spends.put("Траты за текущий месяц", recordRepo.getSpendsForUserThisMonth(id));
-//            } catch (Exception e) {
-//                spends.put("Траты за текущий месяц", 0.0);
-//            }
-//        }
-//        if(period.equalsIgnoreCase("lastMonth")) {
-//            try{
-//                spends.put("Траты за прошлый месяц", recordRepo.getSpendsForUserLastMonth(id));
-//            } catch (Exception e) {
-//                spends.put("Траты за прошлый месяц", 0.0);
-//            }
-//        }
-//        if(period.equalsIgnoreCase("allTime")) {
-//            try{
-//                spends.put("Траты за все время", recordRepo.getSpendsForUserAllTime(id));
-//            } catch (Exception e) {
-//                spends.put("Траты за все время", 0.0);
-//            }
-//        }
-//        if(period.equalsIgnoreCase("")) {
-//            try{
-//                spends.put("Траты за текущий месяц", recordRepo.getSpendsForUserThisMonth(id));
-//            } catch (Exception e) {
-//                spends.put("Траты за текущий месяц", 0.0);
-//            }
-//            try{
-//                spends.put("Траты за прошлый месяц", recordRepo.getSpendsForUserLastMonth(id));
-//            } catch (Exception e) {
-//                spends.put("Траты за прошлый месяц", 0.0);
-//            }
-//            try{
-//                spends.put("Траты за все время", recordRepo.getSpendsForUserAllTime(id));
-//            } catch (Exception e) {
-//                spends.put("Траты за все время", 0.0);
-//            }
-//        }
-//        return spends;
-//    }
-//
-//    public Map<String, Double> getSpendsForUser(long id, int period) {
-//        Map<String, Double> spends = new HashMap<>();
-//        try {
-//            spends.put("Траты за запрошенный период", recordRepo.getSpendsForUser(id, period));
-//        } catch (Exception e) {
-//            spends.put("Указанный период недействителен", 0.0);
-//        }
-//        return spends;
-//    }
+    public Map<String, Double> getPredictionForUser(long id) {
+        Map<String, Double> spends = new LinkedHashMap<>();
+        LocalDate startDate = LocalDate.now();
+        for(int i = 1; i <= 3; i++) {
+            LocalDate endDate = startDate.minusMonths(i);
+            double amount;
+            try {
+                amount = recordRepo.getSpendsForPeriod(id, endDate.getMonth().getValue(), endDate.getYear());
+                spends.put(endDate.getMonth().toString(), amount);
+            } catch (Exception e) {
+                amount = 0.0;
+                spends.put(endDate.getMonth().toString(), amount);
+            }
+        }
+        double delimeter = 1;
+        double average = 0.0;
+        for (Map.Entry<String, Double> entry : spends.entrySet()) {
+            average += entry.getValue();
+            if (entry.getValue() != 0.0) {
+                delimeter++;
+            }
+        }
+        average = average/delimeter;
+        spends.put("prediction", average);
+        return spends;
+    }
 
     public List<RecordDto> getRecordDto(long id) {
         List<RecordDto> recordDtos = new ArrayList<>();
