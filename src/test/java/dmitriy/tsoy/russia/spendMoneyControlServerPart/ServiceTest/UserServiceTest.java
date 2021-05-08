@@ -24,40 +24,24 @@ class UserServiceTest {
     @Test
     @DisplayName("get person by id")
     void getUserByIdTest() {
-        assertEquals(userService.getUserById(1).get().getUsername(), "DonConteo");
+        assertEquals(userService.getUserById(2).get().getUsername(), "Test User");
     }
-
-//    @Test
-//    @DisplayName("save user")
-//    void saveUserTest() {
-//        User user = new User();
-//        user.setUsername("Vasya");
-//        user.setAge(25);
-//        user.setSex("male");
-//        userService.saveUser(user);
-//        assertEquals(userService.getUserById(user.getId()).get().getUsername(), "Vasya");
-//    }
 
     @Test
     @DisplayName("update user")
     void updateUserTest() {
-        userService.updateUser(8, "Petya", 30, "male");
-        assertEquals(userService.getUserById(8).get().getUsername(), "Petya");
-    }
-
-    @Test
-    @DisplayName("delete user")
-    void deleteUserTest() {
-        userService.deleteUser(8);
-        assertEquals(userService.getUserById(8), Optional.empty());
+        userService.updateUser(2, "Petya", 30, "male");
+        assertEquals(userService.getUserById(2).get().getUsername(), "Petya");
+        userService.updateUser(2, "Test User", 25, "male");
     }
 
     @Test
     @DisplayName("get user dto")
     void getUserDtoTest() {
-        UserDto userDto = userService.getUserDto(1);
-        assertEquals(userDto.getUsername(), "DonConteo");
-        assertEquals(userDto.getRecords().get(0).getCategory(), "табак");
-        assertEquals(userDto.getRecords().get(0).getAmount(), 120.0);
+        UserDto userDto = userService.getUserDto(2);
+        assertEquals(userDto.getUsername(), "Test User");
+        assertEquals(userDto.getRecords().get(0).getCategory(), "спорт");
+        assertEquals(userDto.getRecords().get(2).getComment(), "хлеб");
+        assertEquals(userDto.getRecords().get(1).getAmount(), 1700.0);
     }
 }

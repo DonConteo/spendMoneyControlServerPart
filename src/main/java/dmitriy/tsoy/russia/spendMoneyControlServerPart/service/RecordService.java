@@ -8,6 +8,7 @@ import dmitriy.tsoy.russia.spendMoneyControlServerPart.repo.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.util.*;
 
@@ -18,6 +19,10 @@ public class RecordService {
     RecordRepo recordRepo;
     @Autowired
     UserRepo userRepo;
+
+    public Optional<Record> getRecordById(long id) {
+        return recordRepo.findById(id);
+    }
 
     public List<Record> getAllRecords() {
         return recordRepo.findAll();
@@ -63,17 +68,17 @@ public class RecordService {
     }
 
     public Map<String, Double> getSpendsForUser(long id, int period) {
-        Map<String, Double> spends = new HashMap<>();
+        Map<String, Double> spends = new LinkedHashMap<>();
         LocalDate startDate = LocalDate.now();
-        for(int i = period; i >= 0; i--) {
+        for(int i = 0; i <= period; i++) {
             LocalDate endDate = startDate.minusMonths(i);
             double amount;
             try {
                 amount = recordRepo.getSpendsForPeriod(id, endDate.getMonth().getValue(), endDate.getYear());
-                spends.put(endDate.getMonth().toString(), amount);
+                spends.put(endDate.getMonth().toString() + ", " + endDate.getYear(), amount);
             } catch (Exception e) {
                 amount = 0.0;
-                spends.put(endDate.getMonth().toString(), amount);
+                spends.put(endDate.getMonth().toString() + ", " + endDate.getYear(), amount);
             }
         }
         return spends;
@@ -87,13 +92,13 @@ public class RecordService {
             double amount;
             try {
                 amount = recordRepo.getSpendsForPeriod(id, endDate.getMonth().getValue(), endDate.getYear());
-                spends.put(endDate.getMonth().toString(), amount);
+                spends.put(endDate.getMonth().toString() + ", " + endDate.getYear(), amount);
             } catch (Exception e) {
                 amount = 0.0;
-                spends.put(endDate.getMonth().toString(), amount);
+                spends.put(endDate.getMonth().toString() + ", " + endDate.getYear(), amount);
             }
         }
-        double delimeter = 1;
+        double delimeter = 0;
         double average = 0.0;
         for (Map.Entry<String, Double> entry : spends.entrySet()) {
             average += entry.getValue();
@@ -101,8 +106,11 @@ public class RecordService {
                 delimeter++;
             }
         }
+        if (delimeter == 0) {
+            delimeter = 1;
+        }
         average = average/delimeter;
-        spends.put("prediction", average);
+        spends.put("PREDICTION", average);
         return spends;
     }
 
@@ -113,6 +121,7 @@ public class RecordService {
             RecordDto recordDto = new RecordDto(record.getCategory(), record.getAmount(), record.getComment(), record.getDate());
             recordDtos.add(recordDto);
         }
+        recordDtos.sort(Comparator.comparing(RecordDto::getDate));
         return recordDtos;
     }
 }
