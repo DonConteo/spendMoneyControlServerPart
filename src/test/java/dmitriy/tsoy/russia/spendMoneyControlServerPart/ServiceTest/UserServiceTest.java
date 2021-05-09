@@ -1,15 +1,12 @@
 package dmitriy.tsoy.russia.spendMoneyControlServerPart.ServiceTest;
 
 import dmitriy.tsoy.russia.spendMoneyControlServerPart.dto.UserDto;
-import dmitriy.tsoy.russia.spendMoneyControlServerPart.model.User;
 import dmitriy.tsoy.russia.spendMoneyControlServerPart.service.RecordService;
 import dmitriy.tsoy.russia.spendMoneyControlServerPart.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import org.junit.jupiter.api.*;
-
-import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -18,8 +15,6 @@ class UserServiceTest {
 
     @Autowired
     UserService userService;
-    @Autowired
-    RecordService recordService;
 
     @Test
     @DisplayName("get person by id")
