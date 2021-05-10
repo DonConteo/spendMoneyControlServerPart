@@ -32,19 +32,10 @@ public class UserService {
 
     public void updateUser(long id, String username, int age, String sex) {
         Optional<User> user = userRepo.findById(id);
-        if(username.equals("")) {
-            username = user.get().getUsername();
-        }
-        if(age == 0) {
-            age = user.get().getAge();
-        }
-        if(sex.equals("")) {
-            sex = user.get().getSex();
-        }
         User u = User.newBuilder().
-                username(username).
-                age(age).
-                sex(sex).build();
+                username(username.equals("") ? user.get().getUsername() : username).
+                age(age == 0 ? user.get().getAge() : age).
+                sex(sex.equals("") ? user.get().getSex() : sex).build();
         userRepo.updateUser(id, u.getUsername(), u.getAge(), u.getSex());
     }
 

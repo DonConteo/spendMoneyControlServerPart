@@ -32,15 +32,15 @@ public class RecordController {
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<List<Record>> getRecordsForUser(@PathVariable(value="id") long id) {
+    public ResponseEntity getRecordsForUser(@PathVariable(value="id") long id) {
         Optional<User> user = userService.getUserById(id);
         if (user != null) {
             List<Record> records = recordService.getRecordsForUser(id);
             return records.isEmpty()
-                    ? new ResponseEntity<>(HttpStatus.NOT_FOUND)
+                    ? new ResponseEntity<>("User has no records", HttpStatus.NOT_FOUND)
                     : new ResponseEntity<>(records, HttpStatus.OK);
         } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("User doesn't exists", HttpStatus.NOT_FOUND);
         }
     }
 
@@ -64,25 +64,23 @@ public class RecordController {
                                              @RequestParam(value="amount", required = false, defaultValue = "0.0") double amount,
                                              @RequestParam(value="comment", required = false, defaultValue = "") String comment) {
         Optional<Record> record = recordService.getRecordById(id);
-        if (record != null) {
+        if (record.isPresent()) {
             recordService.updateRecord(id, category, amount, comment);
             return new ResponseEntity<>(HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     @DeleteMapping("{id}")
     public ResponseEntity<String> deleteRecord(@PathVariable(value="id") long id) {
         if (recordService.getRecordById(id) == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        } else {
-            recordService.deleteRecord(id);
-            Optional<Record> record = recordService.getRecordById(id);
-            return record == null
-                    ? new ResponseEntity<>(HttpStatus.OK)
-                    : new ResponseEntity<>(HttpStatus.SERVICE_UNAVAILABLE);
         }
+        recordService.deleteRecord(id);
+        Optional<Record> record = recordService.getRecordById(id);
+        return record == null
+                ? new ResponseEntity<>(HttpStatus.OK)
+                : new ResponseEntity<>(HttpStatus.SERVICE_UNAVAILABLE);
     }
 
     @GetMapping("{id}/spends")

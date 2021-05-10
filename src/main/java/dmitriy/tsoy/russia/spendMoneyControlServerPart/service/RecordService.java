@@ -8,8 +8,6 @@ import dmitriy.tsoy.russia.spendMoneyControlServerPart.repo.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.math.BigDecimal;
-import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.util.*;
 
@@ -46,19 +44,10 @@ public class RecordService {
 
     public void updateRecord(long id, String category, double amount, String comment) {
         Optional<Record> record = recordRepo.findById(id);
-        if(category.equals("")) {
-            category = record.get().getCategory();
-        }
-        if(amount == 0.0) {
-            amount = record.get().getAmount();
-        }
-        if(comment.equals("")) {
-            comment = record.get().getComment();
-        }
         Record r = Record.newBuilder().
-                category(category).
-                amount(amount).
-                comment(comment).
+                category(category.equals("") ? record.get().getCategory() : category).
+                amount(amount == 0.0 ? record.get().getAmount() : amount).
+                comment(comment.equals("") ? record.get().getComment() : comment).
                 date(record.get().getDate()).
                 user(record.get().getUser()).build();
         recordRepo.updateRecord(id, r.getCategory(), r.getAmount(), r.getComment());
@@ -107,9 +96,7 @@ public class RecordService {
                 delimeter++;
             }
         }
-        if (delimeter == 0) {
-            delimeter = 1;
-        }
+        delimeter = (delimeter == 0) ? 1 : delimeter;
         average = average/delimeter;
         spends.put("PREDICTION", average);
         return spends;

@@ -38,12 +38,12 @@ public class UserController {
      * method GET
      *
      * @param id id of user for search
-     * @return {@Link #User}
+     * @return User
      */
     @GetMapping("{id}")
     public ResponseEntity<Optional<User>> getUserById(@PathVariable(value="id") long id) {
         Optional<User> user = userService.getUserById(id);
-        return user != null
+        return user.isPresent()
                 ? new ResponseEntity<>(user, HttpStatus.OK)
                 : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
@@ -52,12 +52,12 @@ public class UserController {
      * URI is /users
      * method POST
      *
-     * @param user {@Link #User} info in JSON format
+     * @param user User info in JSON format
      */
     @PostMapping()
     public ResponseEntity<String> saveUser(@RequestBody User user) {
         userService.saveUser(user);
-        return userService.getUserById(user.getId()) != null
+        return userService.getUserById(user.getId()).isPresent()
                 ? new ResponseEntity<>("User saved successfully", HttpStatus.CREATED)
                 : new ResponseEntity<>(HttpStatus.SERVICE_UNAVAILABLE);
     }
@@ -76,12 +76,11 @@ public class UserController {
                                              @RequestParam(value="username", required = false, defaultValue = "") String username,
                                              @RequestParam(value="age", required = false, defaultValue = "0") int age,
                                              @RequestParam(value="sex", required = false, defaultValue = "") String sex) {
-        if (userService.getUserById(id) != null) {
+        if (userService.getUserById(id).isPresent()) {
             userService.updateUser(id, username, age, sex);
             return new ResponseEntity<>(HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
     /**Delete user by id
      * URI is /users/id
@@ -91,15 +90,14 @@ public class UserController {
      */
     @DeleteMapping("{id}")
     public ResponseEntity<String> deleteUser(@PathVariable(value="id") long id) {
-        if (userService.getUserById(id) == null) {
+        if (userService.getUserById(id).isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        } else {
-            userService.deleteUser(id);
-            Optional<User> user = userService.getUserById(id);
-            return user == null
-                    ? new ResponseEntity<>(HttpStatus.OK)
-                    : new ResponseEntity<>(HttpStatus.SERVICE_UNAVAILABLE);
         }
+        userService.deleteUser(id);
+        Optional<User> user = userService.getUserById(id);
+        return user.isEmpty()
+                ? new ResponseEntity<>(HttpStatus.OK)
+                : new ResponseEntity<>(HttpStatus.SERVICE_UNAVAILABLE);
     }
     /**
      * Method for get info about user like id, username, age, sex, records and spends for current month
@@ -107,12 +105,12 @@ public class UserController {
      * method GET
      *
      * @param id id of user for search
-     * @return {@Link #UserDto}
+     * @return UserDto
      */
     @GetMapping("{id}/info")
     public ResponseEntity<UserDto> getUserInfo(@PathVariable(value="id") long id) {
         Optional<User> user = userService.getUserById(id);
-        return user != null
+        return user.isPresent()
                 ? new ResponseEntity<>(userService.getUserDto(id), HttpStatus.OK)
                 : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
