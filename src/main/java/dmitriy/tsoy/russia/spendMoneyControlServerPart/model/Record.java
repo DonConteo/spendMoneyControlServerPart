@@ -2,7 +2,6 @@ package dmitriy.tsoy.russia.spendMoneyControlServerPart.model;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.Date;
 
 @Entity
 @Table(name="records")

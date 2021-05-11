@@ -15,51 +15,65 @@ public class UserDto {
     public long getId() {
         return id;
     }
-    public void setId(long id) {
-        this.id = id;
-    }
-
     public String getUsername() {
         return username;
     }
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
     public int getAge() {
         return age;
     }
-    public void setAge(int age) {
-        this.age = age;
-    }
-
     public String getSex() {
         return sex;
     }
-    public void setSex(String sex) {
-        this.sex = sex;
-    }
-
     public Map<String, Double> getSpends() {
         return spends;
     }
-    public void setSpends(Map<String, Double> spends) {
-        this.spends = spends;
-    }
-
     public List<RecordDto> getRecords() {
         return records;
     }
-    public void setRecords(List<RecordDto> records) {
-        this.records = records;
+
+    private UserDto() {
     }
 
-    public UserDto(long id, String username, int age, String sex, Map<String, Double> spends, List<RecordDto> records) {
-        this.id = id;
-        this.username = username;
-        this.age = age;
-        this.sex = sex;
-        this.spends = spends;
-        this.records = records;
+    public static UserDto.Builder newBuilder(){
+        return new UserDto().new Builder();
+    }
+
+    public class Builder {
+        public Builder() {
+        }
+
+        public UserDto.Builder id(long id) {
+            UserDto.this.id = id;
+            return this;
+        }
+
+        public UserDto.Builder username(String username) {
+            UserDto.this.username = username;
+            return this;
+        }
+
+        public UserDto.Builder age(int age) {
+            UserDto.this.age = age;
+            return this;
+        }
+
+        public UserDto.Builder sex(String sex) {
+            UserDto.this.sex = sex;
+            return this;
+        }
+
+        public UserDto.Builder spends(Map<String, Double> spends) {
+            UserDto.this.spends = spends;
+            return this;
+        }
+
+        public UserDto.Builder records(List<RecordDto> records) {
+            UserDto.this.records = records;
+            return this;
+        }
+
+        public UserDto build() {
+            return UserDto.this;
+        }
     }
 }

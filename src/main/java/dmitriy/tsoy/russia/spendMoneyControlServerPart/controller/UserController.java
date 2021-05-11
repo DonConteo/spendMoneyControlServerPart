@@ -18,12 +18,13 @@ public class UserController {
 
     @Autowired
     UserService userService;
+
     /**
      * This method allows you to get all users from database
-     * URI is /users
-     * method GET
+     * <br>URI is /users
+     * <br>method GET
      *
-     * @return List<User>
+     * @return {@code List<User>}
      */
     @GetMapping()
     public ResponseEntity<List<User>> getAllUsers() {
@@ -32,12 +33,13 @@ public class UserController {
                 ? new ResponseEntity<>(HttpStatus.NOT_FOUND)
                 : new ResponseEntity<>(users, HttpStatus.OK);
     }
+
     /**
      * Find user by id
-     * URI is /users/{id}
-     * method GET
+     * <br>URI is /users/{id}
+     * <br>method GET
      *
-     * @param id id of user for search
+     * @param id (long) id of user to search
      * @return User
      */
     @GetMapping("{id}")
@@ -47,12 +49,13 @@ public class UserController {
                 ? new ResponseEntity<>(user, HttpStatus.OK)
                 : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
+
     /**
      * Method for saving user in the database
-     * URI is /users
-     * method POST
+     * <br>URI is /users
+     * <br>method POST
      *
-     * @param user User info in JSON format
+     * @param user User info
      */
     @PostMapping()
     public ResponseEntity<String> saveUser(@RequestBody User user) {
@@ -61,15 +64,17 @@ public class UserController {
                 ? new ResponseEntity<>("User saved successfully", HttpStatus.CREATED)
                 : new ResponseEntity<>(HttpStatus.SERVICE_UNAVAILABLE);
     }
-    /**Method for update user by id
-     * URI is /users/{id}?username={"new username"}&age={new age}&sex={"new sex"}
-     * method PUT
+
+    /**
+     * Method for update user by id
      * If you want leave any parameter without changes, do not write it
+     * <br>URI is /users/{id}?username={"new username"}&age={new age}&sex={"new sex"}
+     * <br>method PUT
      *
-     * @param id id of user for update
-     * @param username new username String
-     * @param age new age int
-     * @param sex new sex String
+     * @param id (long) id of user to update
+     * @param username (String) new username
+     * @param age (int) new age
+     * @param sex (String) new sex
      */
     @PutMapping("{id}")
     public ResponseEntity<String> updateUser(@PathVariable(value="id") long id,
@@ -82,11 +87,13 @@ public class UserController {
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
-    /**Delete user by id
-     * URI is /users/id
-     * method DELETE
+
+    /**
+     * Delete user by id
+     * <br>URI is /users/id
+     * <br>method DELETE
      *
-     * @param id id of user for delete
+     * @param id (long) id of user to delete
      */
     @DeleteMapping("{id}")
     public ResponseEntity<String> deleteUser(@PathVariable(value="id") long id) {
@@ -99,12 +106,13 @@ public class UserController {
                 ? new ResponseEntity<>(HttpStatus.OK)
                 : new ResponseEntity<>(HttpStatus.SERVICE_UNAVAILABLE);
     }
+
     /**
      * Method for get info about user like id, username, age, sex, records and spends for current month
-     * URI is /users/{id}/info
-     * method GET
+     * <br>URI is /users/{id}/info
+     * <br>method GET
      *
-     * @param id id of user for search
+     * @param id (long) id of user to search
      * @return UserDto
      */
     @GetMapping("{id}/info")

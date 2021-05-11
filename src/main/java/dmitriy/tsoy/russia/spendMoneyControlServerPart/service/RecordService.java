@@ -19,18 +19,41 @@ public class RecordService {
     @Autowired
     UserRepo userRepo;
 
+    /**
+     * Find record by id
+     *
+     * @param id (long) record id
+     * @return Record
+     */
     public Optional<Record> getRecordById(long id) {
         return recordRepo.findById(id);
     }
 
+    /**
+     * Get all records from database
+     *
+     * @return {@code List<Record>}
+     */
     public List<Record> getAllRecords() {
         return recordRepo.findAll();
     }
 
+    /**
+     * Get all records for chosen user by his id
+     *
+     * @param id (long) user id
+     * @return {@code List<Record>}
+     */
     public List<Record> getRecordsForUser(long id) {
         return recordRepo.getRecordsForUser(id);
     }
 
+    /**
+     * Add record to user by his id
+     *
+     * @param id (long) user id
+     * @param record Record
+     */
     public void addRecord(long id, Record record) {
         Optional<User> user = userRepo.findById(id);
         Record r = Record.newBuilder().
@@ -42,6 +65,15 @@ public class RecordService {
         recordRepo.save(r);
     }
 
+    /**
+     * Update record by id. If value of any parameter will be default, the value for this parameter
+     * will be taken from database (value leaves without changes)
+     *
+     * @param id (long) record id
+     * @param category (String) default value = ""
+     * @param amount (double) default value = 0.0
+     * @param comment (String) default value = ""
+     */
     public void updateRecord(long id, String category, double amount, String comment) {
         Optional<Record> record = recordRepo.findById(id);
         Record r = Record.newBuilder().
@@ -53,10 +85,22 @@ public class RecordService {
         recordRepo.updateRecord(id, r.getCategory(), r.getAmount(), r.getComment());
     }
 
+    /**
+     * Delete record by id
+     *
+     * @param id (long) record id
+     */
     public void deleteRecord(long id) {
         recordRepo.deleteById(id);
     }
 
+    /**
+     * Get spends per month for user in the giving time-frame starts from current month. Returns {@code Map<Month, Spends>}
+     *
+     * @param id (long) user id
+     * @param period (int) quantity of months. Default value = 0
+     * @return {@code Map<String, Double>}
+     */
     public Map<String, Double> getSpendsForUser(long id, int period) {
         Map<String, Double> spends = new LinkedHashMap<>();
         LocalDate startDate = LocalDate.now();
@@ -74,6 +118,16 @@ public class RecordService {
         return spends;
     }
 
+    /**
+     * Get prediction of spends for user for the next month. Prediction is based on spends
+     * of three last months. Current month do not includes in the calculations. Months without
+     * spends will not includes as well.
+     * <br>In example: if user has spends only for two last months, the sum of spends will be
+     * divided by 2
+     *
+     * @param id (long) user id
+     * @return {@code Map<String, Double>}
+     */
     public Map<String, Double> getPredictionForUser(long id) {
         Map<String, Double> spends = new LinkedHashMap<>();
         LocalDate startDate = LocalDate.now();
@@ -102,11 +156,21 @@ public class RecordService {
         return spends;
     }
 
+    /**
+     * Get record Dto for user by his id
+     *
+     * @param id (long) user id
+     * @return {@code List<RecordDto>}
+     */
     public List<RecordDto> getRecordDto(long id) {
         List<RecordDto> recordDtos = new ArrayList<>();
         List<Record> records = recordRepo.getRecordsForUser(id);
         for(Record record : records) {
-            RecordDto recordDto = new RecordDto(record.getCategory(), record.getAmount(), record.getComment(), record.getDate());
+            RecordDto recordDto = RecordDto.newBuilder().
+                    category(record.getCategory()).
+                    amount(record.getAmount()).
+                    comment((record.getComment())).
+                    date(record.getDate()).build();
             recordDtos.add(recordDto);
         }
         recordDtos.sort(Comparator.comparing(RecordDto::getDate));
